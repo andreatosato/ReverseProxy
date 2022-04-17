@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  sample.gateway:
+    container_name: nginx
+    image: nginx:latest
+    volumes:
+        - ./Sample.Gateway/:/etc/nginx/conf.d/:rw
+        #:ro/etc/nginx/nginx.conf
+    ports:
+        - "8081:8081"
+
+  sample.aggregator:
+    image: ${DOCKER_REGISTRY-}sample-aggregator
+    build:
+      context: .
+      dockerfile: Sample.Aggregator/Dockerfile
+
+  sample.serviceone:
+    image: ${DOCKER_REGISTRY-}sample-serviceone
+    build:
+      context: .
+      dockerfile: Sample.ServiceOne/Dockerfile
+
+  sample.servicetwo:
+    image: ${DOCKER_REGISTRY-}sample-servicetwo
+    build:
+      context: .
+      dockerfile: Sample.ServiceTwo/Dockerfile

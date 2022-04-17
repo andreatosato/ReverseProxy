@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  sample.gateway:
+    container_name: envoy
+    image: envoyproxy/envoy-alpine:v1.18-latest
+    volumes:
+        - ./Sample.Gateway:/etc/envoy
+    ports:
+        - "10000:10000"
+        - "9901:9901"
+
+  sample.aggregator:
+    image: envoy-sample/sample-aggregator
+    build:
+      context: .
+      dockerfile: Sample.Aggregator/Dockerfile
+
+  sample.serviceone:
+    image: envoy-sample/sample-serviceone
+    build:
+      context: .
+      dockerfile: Sample.ServiceOne/Dockerfile
+
+  sample.servicetwo:
+    image: envoy-sample/sample-servicetwo
+    build:
+      context: .
+      dockerfile: Sample.ServiceTwo/Dockerfile
